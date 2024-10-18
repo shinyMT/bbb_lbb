@@ -1,5 +1,10 @@
+import 'package:bbb_lbb/pages/home/cook/cook.dart';
+import 'package:bbb_lbb/pages/home/health/poop.dart';
+import 'package:bbb_lbb/pages/home/test/test.dart';
 import 'package:bbb_lbb/utils/com_ui_util.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,6 +26,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           _buildFirstLine(),
           _buildSecondLine(),
+          _buildThirdLine(),
         ],
       ),
     );
@@ -64,7 +70,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  /// 第二行
+  /// 第二行卡片
   Widget _buildSecondLine() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -73,14 +79,15 @@ class _HomePageState extends State<HomePage> {
         Expanded(
           flex: 1,
           child: ComUiUtil.builIconCard(
-              title: '私家厨房',
-              icon: const Icon(
-                Icons.restaurant_menu,
-                color: Color.fromARGB(255, 3, 133, 20),
-              ),
-              onTap: () {
-                print("点击了私家厨房");
-              }),
+            title: '私家厨房',
+            icon: const Icon(
+              Icons.restaurant_menu,
+              color: Color.fromARGB(255, 218, 215, 44),
+            ),
+            onTap: () {
+              Get.to(() => const CookPage());
+            },
+          ),
         ),
         const SizedBox(
           width: 20,
@@ -94,7 +101,46 @@ class _HomePageState extends State<HomePage> {
               color: Colors.grey,
             ),
             onTap: () {
-              print("点击了便便记录");
+              Get.to(() => const PoopPage());
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// 第三行卡片
+  Widget _buildThirdLine() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Expanded(
+          flex: 1,
+          child: ComUiUtil.builIconCard(
+            title: '家庭消费',
+            icon: const Icon(
+              Icons.currency_exchange,
+              color: Colors.blue,
+            ),
+            onTap: () {
+              Get.to(() => const CookPage());
+            },
+          ),
+        ),
+        const SizedBox(
+          width: 20,
+        ),
+        Expanded(
+          flex: 1,
+          child: ComUiUtil.builIconCard(
+            title: '测试模块',
+            icon: const Icon(
+              Icons.currency_exchange,
+              color: Colors.blue,
+            ),
+            onTap: () {
+              Get.to(() => const TestPage());
             },
           ),
         ),
