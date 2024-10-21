@@ -1,5 +1,5 @@
+import 'package:bbb_lbb/modules/poop/poop.dart';
 import 'package:bbb_lbb/pages/home/cook/cook.dart';
-import 'package:bbb_lbb/pages/home/health/poop.dart';
 import 'package:bbb_lbb/pages/home/test/test.dart';
 import 'package:bbb_lbb/utils/com_ui_util.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,4 @@
-import 'package:bbb_lbb/data/api/user/user_provider.dart';
+import 'package:bbb_lbb/data/provider/user_provider.dart';
 import 'package:get/get.dart';
 
 class UserController extends GetxController with StateMixin {
@@ -19,6 +19,17 @@ class UserController extends GetxController with StateMixin {
   Future<void> queryUserById(int id) async {
     change(null, status: RxStatus.loading());
     var result = await _userProvider.queryUserById(id);
+    if (result.body?.code == 0) {
+      change(result.body?.result, status: RxStatus.success());
+    } else {
+      change(null, status: RxStatus.error(result.body?.message));
+    }
+  }
+
+  // 登录验证
+  Future<void> login(String account, String password) async {
+    change(null, status: RxStatus.loading());
+    var result = await _userProvider.login(account, password);
     if (result.body?.code == 0) {
       change(result.body?.result, status: RxStatus.success());
     } else {

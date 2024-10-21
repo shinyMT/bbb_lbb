@@ -4,7 +4,7 @@ import 'package:get/get_connect/connect.dart';
 class BaseProvider extends GetConnect {
   @override
   void onInit() {
-    httpClient.baseUrl = SERVER_API_URL;
+    httpClient.baseUrl = baseServerApi;
 
     // 请求拦截
     httpClient.addRequestModifier<void>((request) {

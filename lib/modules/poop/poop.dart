@@ -1,4 +1,4 @@
-import 'package:bbb_lbb/pages/home/health/poop_statistics.dart';
+import 'package:bbb_lbb/modules/poop/poop_statistics.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

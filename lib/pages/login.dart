@@ -1,20 +1,25 @@
+import 'package:bbb_lbb/modules/user/controller.dart';
 import 'package:bbb_lbb/pages/tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+// class LoginPage extends StatefulWidget {
+//   const LoginPage({super.key});
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
+//   @override
+//   State<LoginPage> createState() => _LoginPageState();
+// }
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends GetView<UserController> {
   final _formKey = GlobalKey<FormState>();
-  var _userNameController = TextEditingController();
-  var _passwordController = TextEditingController();
+  final _userNameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  LoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final userController = Get.put(UserController());
     return Column(
       children: [
         Image.asset('assets/images/main.jpeg'),
@@ -52,11 +57,14 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        print(
-                            "${_userNameController.text}, ${_passwordController.text}");
-                        if (['bbb', 'lbb'].contains(_userNameController.text)) {
-                          Get.to(const Tabs());
-                        }
+                        userController.login(
+                            _userNameController.text, _passwordController.text);
+                        // print(
+                        //     "${_userNameController.text}, ${_passwordController.text}");
+                        // if (['bbb', 'lbb']
+                        //     .contains(_userNameController.text)) {
+                        //   Get.to(const Tabs());
+                        // }
                       },
                       child: const Text("登陆"),
                     ),

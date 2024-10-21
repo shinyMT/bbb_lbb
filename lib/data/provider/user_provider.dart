@@ -8,4 +8,9 @@ class UserProvider extends BaseProvider {
 
   Future<Response<UserEntity>> queryUserById(int id) =>
       get(getUserById, query: {"id": id});
+
+  Future<Response<dynamic>> login(String account, String password) => post(
+        apiLogin,
+        {"code": account, "password": password},
+      );
 }
