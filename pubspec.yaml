@@ -31,7 +31,8 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.6.6
-  fluttertoast: ^8.2.8
+  get_storage: ^2.1.1
+  oktoast: ^3.4.0
   calendar_date_picker2: ^1.1.7
   flutter_localizations:
     sdk: flutter

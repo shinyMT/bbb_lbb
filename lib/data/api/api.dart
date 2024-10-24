@@ -1,5 +1,5 @@
 // ignore: constant_identifier_names
-const baseServerApi = "http://192.168.2.181:8080";
+const baseServerApi = "http://192.168.2.181:11101/blb";
 
 // =========================== 用户相关 ===========================
 // 查询所有用户
@@ -11,6 +11,10 @@ var apiLogin = '$baseServerApi/user/login';
 
 // =========================== BB相关 ===========================
 // 查询当前用户指定年月的BB记录
-var queryBbList = '$baseServerApi/poop/listByYearMonth';
+var apiQueryBbList = '$baseServerApi/poop/listByYearMonth';
 // 添加BB记录
-var insertPoop = '$baseServerApi/poop/insert';
+var apiInsertPoop = '$baseServerApi/poop/insert';
+// 删除BB记录
+var apiDeletePoop = '$baseServerApi/poop/delete';
+// 统计用户的BB结果
+var apiStatistics = '$baseServerApi/poop/statistics';

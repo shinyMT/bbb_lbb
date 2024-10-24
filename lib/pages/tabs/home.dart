@@ -3,7 +3,6 @@ import 'package:bbb_lbb/pages/home/cook/cook.dart';
 import 'package:bbb_lbb/pages/home/test/test.dart';
 import 'package:bbb_lbb/utils/com_ui_util.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
@@ -101,7 +100,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.grey,
             ),
             onTap: () {
-              Get.to(() => const PoopPage());
+              Get.to(() => PoopPage());
             },
           ),
         ),

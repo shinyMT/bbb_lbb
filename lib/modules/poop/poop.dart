@@ -1,18 +1,17 @@
+import 'package:bbb_lbb/modules/poop/controller.dart';
 import 'package:bbb_lbb/modules/poop/poop_statistics.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oktoast/oktoast.dart';
 
-class PoopPage extends StatefulWidget {
-  const PoopPage({super.key});
-
-  @override
-  State<PoopPage> createState() => _PoopPageState();
-}
-
-class _PoopPageState extends State<PoopPage> {
+class PoopPage extends GetView<PoopController> {
   List<DateTime> _dates = [];
-  late DateTime _selectedDate;
+  DateTime _selectedDate = DateTime.now();
+  final poopController = Get.put(PoopController());
+
+  PoopPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +19,29 @@ class _PoopPageState extends State<PoopPage> {
         title: const Text('便便记录'),
         actions: _buildActions(),
         // bottom: TabBar(
-        //   controller: _tabController,
+        //   poopController: _tabController,
         //   tabs: _buildTabList(),
         // ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: _buildContent(),
+      body: poopController.obx(
+        (state) {
+          if (state is List) {
+            return Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: _buildContent(state),
+            );
+          } else {
+            poopController.queryPoopList(
+                _selectedDate.year, _selectedDate.month);
+            return Container();
+          }
+        },
+        onEmpty: _buildContent([]),
+        onLoading: const Center(child: CircularProgressIndicator()),
+        onError: (msg) {
+          showToast("$msg");
+          return _buildContent([]);
+        },
       ),
     );
   }
@@ -41,7 +56,7 @@ class _PoopPageState extends State<PoopPage> {
               value: 0,
               child: const Text('查看汇总'),
               onTap: () {
-                Get.to(const PoopStatisticsPage());
+                Get.to(PoopStatisticsPage());
               },
             ),
           ];
@@ -58,7 +73,10 @@ class _PoopPageState extends State<PoopPage> {
   }
 
   /// 构建body内容
-  Widget _buildContent() {
+  Widget _buildContent(List<dynamic> list) {
+    //  获取list中所有的poopTime
+    var dateList = list.map((e) => DateTime.parse(e["poopTime"]!)).toList();
+    _dates = dateList;
     return CalendarDatePicker2(
       config: CalendarDatePicker2Config(
         calendarType: CalendarDatePicker2Type.multi,
@@ -76,49 +94,33 @@ class _PoopPageState extends State<PoopPage> {
         _dates = date;
         if (_dates.contains(_selectedDate)) {
           // 添加
+          poopController.addPoop(_selectedDate);
+          // 刷新数据
+          poopController.queryPoopList(_selectedDate.year, _selectedDate.month);
         } else {
           // 取消
-          _showDialog(
-              '警告', '是否确认取消${_selectedDate.toString().split(' ')[0]}的记录');
+          Get.defaultDialog(
+            title: '警告',
+            middleText: '是否确认取消${_selectedDate.toString().split(' ')[0]}的记录',
+            onConfirm: () {
+              // 从list中筛选poopTime为_selectedDate的数据
+              var matchedList = list
+                  .where((e) =>
+                      DateTime.parse(e["poopTime"]!).toString().split(' ')[0] ==
+                      _selectedDate.toString().split(' ')[0])
+                  .toList();
+              if (matchedList.isNotEmpty) {
+                poopController.deletePoop(matchedList[0]["id"]);
+                Get.back();
+              }
+            },
+            onCancel: () {
+              // 关闭弹窗
+              Get.back();
+            },
+          );
         }
         print('$_dates, $_selectedDate');
-      },
-    );
-  }
-
-  Future<void> _showDialog(String titleName, String content) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(titleName),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(content),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('确认'),
-              onPressed: () {
-                // 调用接口取消
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text(
-                "取消",
-                style: TextStyle(color: Colors.grey),
-              ),
-            )
-          ],
-        );
       },
     );
   }
