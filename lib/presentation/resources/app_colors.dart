@@ -1,6 +1,25 @@
 import 'package:flutter/material.dart';
 
+class LightAppColors {
+  static const Color primaryTheme = Color(0xFF8B67E5);
+  static const Color secondaryColor = Color(0xFF50E4FF);
+  static const Color mainTextColor = Colors.white;
+  static const Color mainTextColor2 = Colors.white70;
+  static const Color errorColor = Color(0xFFE80054);
+  static const Color pageBackground = Colors.white;
+}
+
+class DarkAppColors {
+  static const Color primaryTheme = Color(0xFF2F67EE);
+  static const Color secondaryColor = Color(0xFF50E4FF);
+  static const Color mainTextColor = Colors.white;
+  static const Color mainTextColor2 = Colors.white70;
+  static const Color errorColor = Color(0xFFE80054);
+  static const Color pageBackground = Color(0xFF282E45);
+}
+
 class AppColors {
+  static const Color primaryTheme = Color(0xFF8B67E5);
   static const Color primary = contentColorCyan;
   static const Color menuBackground = Color(0xFF090912);
   static const Color itemsBackground = Color(0xFF1B2339);

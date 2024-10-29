@@ -1,4 +1,5 @@
 import 'package:bbb_lbb/pages/login.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/route_manager.dart';
@@ -13,25 +14,38 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  static final _defaultLightColorScheme =
+      ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple);
+
+  static final _defaultDarkColorScheme = ColorScheme.fromSwatch(
+      primarySwatch: Colors.blue, brightness: Brightness.dark);
+
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'bbb❤️lbb',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const OKToast(
-        child: MyHomePage(title: 'bbb❤️lbb'),
-      ),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate
-      ],
-      supportedLocales: const [Locale('zh', 'CN'), Locale('en')],
-      locale: const Locale('zh', 'CN'),
-    );
+    return DynamicColorBuilder(builder: (lightColorSchema, darkColorSchema) {
+      return GetMaterialApp(
+        title: 'bbb❤️lbb',
+        theme: ThemeData(
+          colorScheme: lightColorSchema ?? _defaultLightColorScheme,
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
+          colorScheme: darkColorSchema ?? _defaultDarkColorScheme,
+          useMaterial3: true,
+        ),
+        themeMode: ThemeMode.system,
+        home: const OKToast(
+          child: MyHomePage(title: 'bbb❤️lbb'),
+        ),
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate
+        ],
+        supportedLocales: const [Locale('zh', 'CN'), Locale('en')],
+        locale: const Locale('zh', 'CN'),
+      );
+    });
   }
 }
 
